@@ -1,16 +1,19 @@
-from flask import Flask, render_template, Response
+from flask import Flask, render_template, Response, request, redirect, url_for
 import cv2
 
 app = Flask(__name__)
 
-# Open the camera
-cap = cv2.VideoCapture(1)
-
-if not cap.isOpened():
-    print("Error: Could not open camera.")
-    exit()
+# Global variable to store the camera source
+camera_source = 0
 
 def generate_frames():
+    global camera_source
+    cap = cv2.VideoCapture(camera_source)
+
+    if not cap.isOpened():
+        print("Error: Could not open camera.")
+        return b''
+
     while True:
         # Capture frame-by-frame
         success, frame = cap.read()
@@ -25,8 +28,21 @@ def generate_frames():
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
+    global camera_source
+    if request.method == 'POST':
+        # Get the camera input from the form
+        camera_input = request.form.get('camera_input')
+        
+        # Check if input is a digit (camera index) or URL (IP camera)
+        if camera_input.isdigit():
+            camera_source = int(camera_input)
+        else:
+            camera_source = camera_input
+        
+        return redirect(url_for('video_feed'))
+
     # Renders the index.html file
     return render_template('index.html')
 
@@ -36,4 +52,4 @@ def video_feed():
     return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
