@@ -4,16 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Camera Stream</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('{{ url_for('static', filename='images/ist.jpg') }}') no-repeat center center fixed;
+            background-size: cover;
+            color: #343a40;
+        }
+        .container {
+            margin-top: 50px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            padding: 20px;
+        }
+        .card {
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .form-label {
+            font-weight: 500;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to the Camera Stream</h1>
-    <form method="POST">
-        <label for="camera_input">Enter Camera Index or IP:</label>
-        <input type="text" id="camera_input" name="camera_input" placeholder="0 or http://IP:PORT/video">
-        <button type="submit">Submit</button>
-    </form>
-    <hr>
-    <h2>Live Video Feed</h2>
-    <img src="{{ url_for('video_feed') }}" width="800">
+    <div class="container">
+        <div class="text-center">
+            <h1 class="display-4">Welcome to the Camera Stream</h1>
+        </div>
+        <div class="card mt-4">
+            <form method="POST" class="mb-4">
+                <div class="mb-3">
+                    <label for="camera_input" class="form-label">Enter Camera Index or IP:</label>
+                    <input type="text" class="form-control" id="camera_input" name="camera_input" placeholder="0 or http://IP:PORT/video">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+        <hr>
+        <div class="text-center mt-4">
+            <h2 class="h3">Live Video Feed</h2>
+            <img src="{{ url_for('video_feed') }}" class="img-fluid" width="800">
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
