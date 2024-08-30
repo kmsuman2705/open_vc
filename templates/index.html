@@ -6,7 +6,14 @@
     <title>Camera Stream</title>
 </head>
 <body>
-    <h1>Live Camera</h1>
-    <img src="{{ url_for('video_feed') }}" width="700">
+    <h1>Welcome to the Camera Stream</h1>
+    <form method="POST">
+        <label for="camera_input">Enter Camera Index or IP:</label>
+        <input type="text" id="camera_input" name="camera_input" placeholder="0 or http://IP:PORT/video">
+        <button type="submit">Submit</button>
+    </form>
+    <hr>
+    <h2>Live Video Feed</h2>
+    <img src="{{ url_for('video_feed') }}" width="800">
 </body>
 </html>
