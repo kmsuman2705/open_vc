@@ -3,7 +3,7 @@ import cv2
 
 app = Flask(__name__)
 
-# Global variable to store the camera source
+# Global variable to store the camera source and capture object
 camera_source = 0
 cap = None
 
@@ -16,10 +16,14 @@ def generate_frames():
     while True:
         success, frame = cap.read()
         if not success:
+            print("Error: Failed to read frame.")
             break
         else:
             # Encode the frame in JPEG format
             ret, buffer = cv2.imencode('.jpg', frame)
+            if not ret:
+                print("Error: Failed to encode frame.")
+                continue
             frame = buffer.tobytes()
 
             # Yield the frame as a byte array
@@ -46,7 +50,7 @@ def index():
         cap = cv2.VideoCapture(camera_source)
 
         if not cap.isOpened():
-            print("Error: Could not open camera with source:", camera_source)
+            print(f"Error: Could not open camera with source: {camera_source}")
         
         return redirect(url_for('index'))
 
