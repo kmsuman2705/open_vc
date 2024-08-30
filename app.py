@@ -1,6 +1,6 @@
 from flask import Flask, render_template, Response
 import cv2
-import pyttsx3
+
 
 app = Flask(__name__)
 
@@ -15,11 +15,7 @@ def speak(text):
 # Open the camera
 cap = cv2.VideoCapture(0)
 
-if not cap.isOpened():
-    speak("Error: Could not open camera.")
-    exit()
 
-speak("Hello, welcome to the camera stream.")
 
 def generate_frames():
     while True:
