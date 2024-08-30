@@ -1,21 +1,14 @@
 from flask import Flask, render_template, Response
 import cv2
 
-
 app = Flask(__name__)
-
-# Initialize the text-to-speech engine
-engine = pyttsx3.init()
-
-# Define the function to speak
-def speak(text):
-    engine.say(text)
-    engine.runAndWait()
 
 # Open the camera
 cap = cv2.VideoCapture(0)
 
-
+if not cap.isOpened():
+    print("Error: Could not open camera.")
+    exit()
 
 def generate_frames():
     while True:
